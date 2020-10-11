@@ -8,7 +8,7 @@ ob_start();
 <?php
 class shoppingClass{
 	function __construct(){
-		$this->con = mysqli_connect("localhost","shopping_root","rjdp@27917","shoppingplus") or die(mysql_error());
+		$this->con = mysqli_connect("hostname","mysqlUser","mysqlPassword","DBname") or die(mysql_error());
 	}
 
 	function insertion($tbl,$data){
@@ -24,12 +24,7 @@ class shoppingClass{
 		mysqli_query($this->con,$qry);
 
 	}
-	function grid2($tbl){
-		$sql="Select * from ". $tbl;
-		$res=mysqli_query($this->con,$sql);
-		return $res;
-
-	}
+	
 	function grid($tbl,$f){
 		// Provide gridview's header with column name of your table
 		$sql = "SHOW COLUMNS FROM ". $tbl;
@@ -135,16 +130,13 @@ class shoppingClass{
 		return $str;
 	}
 	function log_in($uemail,$pass){
+		// Provide Login with email and pass MD5 hash is used,  with session store, Email will be stored in session
 		 $qry = "select * from sp_users where u_email = '" . $uemail ."' and u_password = '" . $pass ."'" ;
-		// echo $qry; 
 		$res = mysqli_query($this->con,$qry);
 		$cnt = mysqli_num_rows($res);
-		// echo $cnt;
 		if ($cnt == 1) {
 			$_SESSION["useremail"] = $uemail;
-			// $page = basename($_SERVER['PHP_SELF']);
 			// // Program to display URL of current page. 
-			// $link = "";
 			if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
 			    $link = "https"; 
 			}
@@ -161,12 +153,10 @@ class shoppingClass{
 		}
 	}
 	function log_in2($uemail,$pass){
+		// Provide Login with email and pass MD5 hash is used,  with no session 
 		$qry = "select * from sp_users where u_email = '" . $uemail ."' and u_password = '" . $pass ."'" ;
-		// echo $qry; 
 		$res = mysqli_query($this->con,$qry);
 		echo $cnt = mysqli_num_rows($res);
-		// $row=mysqli_fetch_array($res);
-		// echo $cnt;
 		if ($cnt == 1) {
 			return 1;
 		}
@@ -177,8 +167,9 @@ class shoppingClass{
 
 	}
 	function select_records($tbl,$whrid,$whrval) {
+		// select all record where $whrid = $whrval 
 		$qry="select * from " . $tbl . " where " . $whrid . " = '" . $whrval ."'";
-        return mysqli_query($this->con,$qry);
+        	return mysqli_query($this->con,$qry);
 	}
 	function insert_selection($tbl,$fields,$data){
 		// Insert data into any table within some perticular fields 
@@ -191,17 +182,8 @@ class shoppingClass{
 		mysqli_query($this->con,$qry);
 	}
 	function custom_query($qry){
-//		 echo $qry;
-        return mysqli_query($this->con,$qry);
+		// To execute custom queries
+        	return mysqli_query($this->con,$qry);
 	}
-	function sp_log($log_msg,$name){
-		$name = "logs/".$name;
-	    if (!file_exists($name)) 
-	    {
-	        mkdir($name, 0777, true);
-	    }
-	    $log_file_data = $name.'/log_' . date('d-M-Y') . '.log';
-	    file_put_contents($log_file_data, $log_msg . "\n", FILE_APPEND);
-	} 
 }	
 ?>
