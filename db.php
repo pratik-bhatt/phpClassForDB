@@ -1,12 +1,9 @@
 <?php 
-ob_start();
- if(!isset($_SESSION)) 
-    { 
-        session_start(); 
-    }  
-    ?>
-<?php
-class shoppingClass{
+ if(!isset($_SESSION)) { 
+	session_start(); 
+}  
+   
+class PratikDbClass{
 	function __construct(){
 		$this->con = mysqli_connect("hostname","mysqlUser","mysqlPassword","DBname") or die(mysql_error());
 	}
