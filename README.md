@@ -24,7 +24,7 @@ For Insert:->>
     example:-(posts table is there with post_id(auto_increment), post_name, post_title)
               <?php 
                 $data['post_name']= 'Post name gone here';
-                $data['post_title']= 'Post titlr gone here';
+                $data['post_title']= 'Post title gone here';
                 $con->insertion('posts',$data);
               ?>
               
